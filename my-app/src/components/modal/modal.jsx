@@ -8,10 +8,6 @@ export default function Modal({
    modalFontSize,
    modalWidth,
    modalHeight,
-   modalTextAreaBgColor,
-   mRed,
-   mGreen,
-   mBlue,
    mOpacity,
    closeModal 
 }) {
