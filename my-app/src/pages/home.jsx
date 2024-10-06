@@ -5,8 +5,10 @@ import { Link } from 'react-router-dom';
 import { Select } from "../components/select/select"; 
 import city from '../data/city.json';
 import {SelectDate} from "../components/select/selectDate"; 
+import { useEmployeeContext } from '../components/context/EmployeeContext';
 
 function HRnet() {
+  const { setEmployees } = useEmployeeContext();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState(null);
@@ -35,9 +37,8 @@ function HRnet() {
       department,
     };
 
-    const existingEmployees = JSON.parse(localStorage.getItem("employees")) || [];
-    existingEmployees.push(newEmployee);
-    localStorage.setItem("employees", JSON.stringify(existingEmployees));
+  
+    setEmployees(prevEmployees => [...prevEmployees, newEmployee]);
 
     console.log(newEmployee); 
     setIsModalOpen(true); 
