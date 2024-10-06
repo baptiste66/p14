@@ -4,6 +4,7 @@ import '../components/modal/modal.css';
 import { Link } from 'react-router-dom';
 import { Select } from "../components/select/select"; 
 import city from '../data/city.json';
+import {SelectDate} from "../components/select/selectDate"; 
 
 function HRnet() {
   const [firstName, setFirstName] = useState('');
@@ -34,19 +35,14 @@ function HRnet() {
       department,
     };
 
-   
     const existingEmployees = JSON.parse(localStorage.getItem("employees")) || [];
-    
-  
     existingEmployees.push(newEmployee);
-    
-    
     localStorage.setItem("employees", JSON.stringify(existingEmployees));
 
     console.log(newEmployee); 
     setIsModalOpen(true); 
 
-    
+    // Reset form fields
     setFirstName('');
     setLastName('');
     setDateOfBirth(null);
@@ -89,18 +85,20 @@ function HRnet() {
         />
 
         <label htmlFor="date-of-birth">Date of Birth</label>
-        {/* <DatePicker
-          selectedDate={dateOfBirth}
-          onDateChange={setDateOfBirth}
-          placeholder="Select Date of Birth"
-        /> */}
+        <SelectDate
+          value={dateOfBirth}
+          onChange={setDateOfBirth}
+          id="date-of-birth"
+          required
+        />
 
-        {/* <label htmlFor="start-date">Start Date</label>
-        <DatePicker
-          selectedDate={startDate}
-          onDateChange={setStartDate}
-          placeholder="Select Start Date"
-        /> */}
+        <label htmlFor="start-date">Start Date</label>
+        <SelectDate
+          value={startDate}
+          onChange={setStartDate}
+          id="start-date"
+          required
+        />
 
         <fieldset className="address">
           <legend>Address</legend>
