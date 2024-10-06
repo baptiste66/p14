@@ -13,7 +13,7 @@ export default function Modal({
    mGreen,
    mBlue,
    mOpacity,
-   closeModal // Ajout de la fonction closeModal reçue en prop
+   closeModal 
 }) {
 
    const defaultModal = {
@@ -29,7 +29,7 @@ export default function Modal({
    function otherCloseModal(event) {
       let validation = document.getElementById("validationModal");
       if (validation === event.target) {
-         closeModal(); // Utilise la fonction closeModal pour fermer
+         closeModal(); 
       }
    }
 
@@ -37,7 +37,7 @@ export default function Modal({
       <div
          id="validationModal"
          onClick={(e) => otherCloseModal(e)}
-         style={{ display: 'flex' }} // Assurez-vous que la modale est affichée
+         style={{ display: 'flex' }} 
       >
          <div
             id="contentModal"

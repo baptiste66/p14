@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import Modal from '../components/modal/modal'; 
 import '../components/modal/modal.css';
 import { Link } from 'react-router-dom';
+import { Select } from "../components/select/select"; 
+import city from '../data/city.json';
 
 function HRnet() {
   const [firstName, setFirstName] = useState('');
@@ -9,13 +11,13 @@ function HRnet() {
   const [dateOfBirth, setDateOfBirth] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [street, setStreet] = useState('');
-  const [city, setCity] = useState('');
+  const [cityInput, setCityInput] = useState('');
   const [state, setState] = useState('');
   const [zipCode, setZipCode] = useState('');
   const [department, setDepartment] = useState('Sales');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const stateOptions = ['California', 'New York', 'Texas', 'Washington'];
+  const stateOptions = city.states.map(state => state.name);
   const departmentOptions = ['Sales', 'Marketing', 'Engineering', 'Human Resources', 'Legal'];
 
   const saveEmployee = (e) => {
@@ -26,11 +28,20 @@ function HRnet() {
       dateOfBirth,
       startDate,
       street,
-      city,
+      city: cityInput,
       state,
       zipCode,
       department,
     };
+
+   
+    const existingEmployees = JSON.parse(localStorage.getItem("employees")) || [];
+    
+  
+    existingEmployees.push(newEmployee);
+    
+    
+    localStorage.setItem("employees", JSON.stringify(existingEmployees));
 
     console.log(newEmployee); 
     setIsModalOpen(true); 
@@ -41,7 +52,7 @@ function HRnet() {
     setDateOfBirth(null);
     setStartDate(null);
     setStreet('');
-    setCity('');
+    setCityInput('');
     setState('');
     setZipCode('');
     setDepartment('Sales');
@@ -56,7 +67,7 @@ function HRnet() {
       <div className="title">
         <h1>HRnet</h1>
       </div>
-      <Link to="/employee-list">View Current Employees</Link>
+      <Link to="/employees">View Current Employees</Link>
       <h2>Create Employee</h2>
       <form id="create-employee" onSubmit={saveEmployee}>
         <label htmlFor="first-name">First Name</label>
@@ -77,21 +88,19 @@ function HRnet() {
           required
         />
 
-<label htmlFor="date-of-birth">Date of Birth</label>
-        
-        {/*<DatePicker
+        <label htmlFor="date-of-birth">Date of Birth</label>
+        {/* <DatePicker
           selectedDate={dateOfBirth}
           onDateChange={setDateOfBirth}
           placeholder="Select Date of Birth"
-        />
+        /> */}
 
-        <label htmlFor="start-date">Start Date</label>
-        
+        {/* <label htmlFor="start-date">Start Date</label>
         <DatePicker
           selectedDate={startDate}
           onDateChange={setStartDate}
           placeholder="Select Start Date"
-        />*/}
+        /> */}
 
         <fieldset className="address">
           <legend>Address</legend>
@@ -108,24 +117,19 @@ function HRnet() {
           <input
             type="text"
             id="city"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
+            value={cityInput}
+            onChange={(e) => setCityInput(e.target.value)}
             required
           />
 
           <label htmlFor="state">State</label>
-          <select
+          <Select
             id="state"
+            options={stateOptions}
             value={state}
             onChange={(e) => setState(e.target.value)}
             required
-          >
-            {stateOptions.map((state, index) => (
-              <option key={index} value={state}>
-                {state}
-              </option>
-            ))}
-          </select>
+          />
 
           <label htmlFor="zip-code">Zip Code</label>
           <input
@@ -138,23 +142,17 @@ function HRnet() {
         </fieldset>
 
         <label htmlFor="department">Department</label>
-        <select
+        <Select
           id="department"
+          options={departmentOptions}
           value={department}
           onChange={(e) => setDepartment(e.target.value)}
           required
-        >
-          {departmentOptions.map((dept, index) => (
-            <option key={index} value={dept}>
-              {dept}
-            </option>
-          ))}
-        </select>
+        />
 
         <button type="submit">Save</button>
       </form>
 
-      
       {isModalOpen && (
         <Modal
           modalMessage="Employee Created!"
