@@ -1,6 +1,6 @@
 import React from "react";
 import './select.css'; 
-
+//props
 export const Select = ({
 	label,
 	name,

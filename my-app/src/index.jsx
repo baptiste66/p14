@@ -7,6 +7,7 @@ import "./index.css";
 import "./components/modal/modal.css";
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import "./employees.css"
 
 ReactDOM.createRoot(document.getElementById("root")).render(
    <React.StrictMode>

@@ -21,7 +21,7 @@ export default function Modal({
       mainBackgroundOpacity: mOpacity || 50, // opacity 0-100
    };
 
-   // Close Modal when clicking anywhere else
+   
    function otherCloseModal(event) {
       let validation = document.getElementById("validationModal");
       if (validation === event.target) {

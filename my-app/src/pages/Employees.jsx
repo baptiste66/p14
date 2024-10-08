@@ -2,10 +2,12 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import { useTable } from "react-table";
 import { useSelector } from "react-redux"; 
-import '../employees.css';
+import "../employees.css";
 
 const EmployeeList = () => {
+    
     const employees = useSelector((state) => state.employees);
+
     const formattedEmployees = employees.map(emp => {
         const dateOfBirth = emp.dateOfBirth ? new Date(emp.dateOfBirth) : '';
         const startDate = emp.startDate ? new Date(emp.startDate) : '';
@@ -25,7 +27,7 @@ const EmployeeList = () => {
             startDate: startDateFormatted,
         };
     });
-
+// Mémorise les employés formatés pour éviter les recalculs inutiles
     const data = React.useMemo(() => formattedEmployees, [formattedEmployees]);
 
     const columns = React.useMemo(
@@ -44,11 +46,11 @@ const EmployeeList = () => {
     );
 
     const {
-        getTableProps,
-        getTableBodyProps,
-        headerGroups,
-        rows,
-        prepareRow,
+        getTableProps,//aria-label
+        getTableBodyProps,//<tbody>
+        headerGroups,//header element
+        rows,//data <tbody>
+        prepareRow,//formated
     } = useTable({ columns, data });
 
     return (
@@ -57,11 +59,13 @@ const EmployeeList = () => {
 
             <div className="table-container">
                 <table
+                //accessibilité
                     {...getTableProps()}
                     className="employee-table"
                     role="table"
                     aria-label="Employee List"
                 >
+                    
                     <thead className="table-header">
                         {headerGroups.map(headerGroup => (
                             <tr {...headerGroup.getHeaderGroupProps()} key={headerGroup.id} role="row">
@@ -81,16 +85,18 @@ const EmployeeList = () => {
                     </thead>
 
                     <tbody {...getTableBodyProps()}>
+                        {/*donné?*/}
                         {rows.length > 0 ? (
                             rows.map((row, index) => {
                                 prepareRow(row);
                                 return (
                                     <tr
                                         {...row.getRowProps()}
+                                        //key unique 
                                         key={row.original.firstName + row.original.lastName + row.original.startDate}
                                         className={`table-row ${index % 2 === 0 ? "" : "bg-gray-50"}`}
                                         role="row"
-                                    >
+                                    >{/*donnée a afficher */}
                                         {row.cells.map(cell => (
                                             <td
                                                 {...cell.getCellProps()}
@@ -131,3 +137,4 @@ const EmployeeList = () => {
 };
 
 export default EmployeeList;
+   

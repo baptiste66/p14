@@ -28,7 +28,7 @@ function HRnet() {
  
   const validateFields = () => {
     if (!firstName || !lastName || !dateOfBirth || !startDate || !street || !cityInput || !state || !zipCode || !department) {
-      setErrorMessage('All fields are required.');
+      setErrorMessage('Toutes les cases doivent être remplis.');
       return false;
     }
     return true;
@@ -42,14 +42,14 @@ function HRnet() {
         return;
     }
 
-    
+     
     const normalizedDateOfBirth = dateOfBirth ? new Date(dateOfBirth.setHours(0, 0, 0, 0)) : null;
     const normalizedStartDate = startDate ? new Date(startDate.setHours(0, 0, 0, 0)) : null;
 
     const newEmployee = {
         firstName,
         lastName,
-        dateOfBirth: normalizedDateOfBirth ? normalizedDateOfBirth.toLocaleDateString('en-CA') : null, 
+        dateOfBirth: normalizedDateOfBirth ? normalizedDateOfBirth.toLocaleDateString('en-CA') : null,//yyyy/mm//dd
         startDate: normalizedStartDate ? normalizedStartDate.toLocaleDateString('en-CA') : null, 
         street,
         city: cityInput,
