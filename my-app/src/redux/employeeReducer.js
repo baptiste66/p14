@@ -5,7 +5,7 @@ const initialState = {
 export const employeeReducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_EMPLOYEES':
-            return {
+            return {//initial state 
                 ...state,
                 employees: action.payload,
             };

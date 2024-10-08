@@ -6,7 +6,7 @@ import './selectDate.css';
 export const SelectDate = ({
     label,
     value,
-    onChange,
+    //onChange,
     error,
     className,
     ariaLabel,
@@ -17,8 +17,8 @@ export const SelectDate = ({
                 {label}
             </label>
             <DatePicker
-                selected={value}
-                onChange={onChange}
+                selected={value} 
+               // onChange={date => onChange(date)} 
                 id={label} 
                 aria-label={ariaLabel || label}
                 className={`input-date-picker ${className} ${error ? "input-date-error" : ""}`}
@@ -29,6 +29,7 @@ export const SelectDate = ({
                 dropdownMode="select"
                 aria-invalid={!!error}
                 aria-describedby={error ? `${label}-error` : undefined}
+                popperPlacement="bottom" 
             />
             {error && (
                 <span id={`${label}-error`} className="input-date-error-message">

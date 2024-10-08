@@ -1,18 +1,30 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useTable } from "react-table";
-import {  useSelector } from "react-redux"; 
-//import { setEmployees } from "../actions/employeesAction";
+import { useSelector } from "react-redux"; 
 import '../employees.css';
 
 const EmployeeList = () => {
-    const employees = useSelector((state) => state.employees); 
-    const formattedEmployees = employees.map(emp => ({
-        ...emp,
-        dateOfBirth: emp.dateOfBirth ? new Date(emp.dateOfBirth).toISOString().split('T')[0] : '', 
-        startDate: emp.startDate ? new Date(emp.startDate).toISOString().split('T')[0] : '', 
-    }));
+    const employees = useSelector((state) => state.employees);
+    const formattedEmployees = employees.map(emp => {
+        const dateOfBirth = emp.dateOfBirth ? new Date(emp.dateOfBirth) : '';
+        const startDate = emp.startDate ? new Date(emp.startDate) : '';
 
+        
+        const dateOfBirthFormatted = dateOfBirth 
+            ? new Date(dateOfBirth).toISOString().split('T')[0] // 'YYYY-MM-DD'
+            : '';
+
+        const startDateFormatted = startDate 
+            ? new Date(startDate).toISOString().split('T')[0] // 'YYYY-MM-DD'
+            : '';
+
+        return {
+            ...emp,
+            dateOfBirth: dateOfBirthFormatted,
+            startDate: startDateFormatted,
+        };
+    });
 
     const data = React.useMemo(() => formattedEmployees, [formattedEmployees]);
 
@@ -38,8 +50,6 @@ const EmployeeList = () => {
         rows,
         prepareRow,
     } = useTable({ columns, data });
-
-
 
     return (
         <div className="employee-list-container">
@@ -72,7 +82,7 @@ const EmployeeList = () => {
 
                     <tbody {...getTableBodyProps()}>
                         {rows.length > 0 ? (
-                            rows.map((row, index) => { 
+                            rows.map((row, index) => {
                                 prepareRow(row);
                                 return (
                                     <tr

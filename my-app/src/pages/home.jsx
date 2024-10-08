@@ -10,7 +10,6 @@ import { useDispatch } from 'react-redux';
 
 function HRnet() {
   const dispatch = useDispatch();
-  //const employees = useSelector(state => state.employees);  
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState(null);
@@ -40,27 +39,31 @@ function HRnet() {
     e.preventDefault();
 
     if (!validateFields()) {
-      return;
+        return;
     }
 
+    
+    const normalizedDateOfBirth = dateOfBirth ? new Date(dateOfBirth.setHours(0, 0, 0, 0)) : null;
+    const normalizedStartDate = startDate ? new Date(startDate.setHours(0, 0, 0, 0)) : null;
+
     const newEmployee = {
-      firstName,
-      lastName,
-      dateOfBirth,
-      startDate,
-      street,
-      city: cityInput,
-      state,
-      zipCode,
-      department,
+        firstName,
+        lastName,
+        dateOfBirth: normalizedDateOfBirth ? normalizedDateOfBirth.toLocaleDateString('en-CA') : null, 
+        startDate: normalizedStartDate ? normalizedStartDate.toLocaleDateString('en-CA') : null, 
+        street,
+        city: cityInput,
+        state,
+        zipCode,
+        department,
     };
 
-    dispatch(addEmployee(newEmployee));  
+    dispatch(addEmployee(newEmployee));
 
     console.log(newEmployee); 
     setIsModalOpen(true);
 
-  
+   
     setFirstName('');
     setLastName('');
     setDateOfBirth(null);
@@ -71,7 +74,8 @@ function HRnet() {
     setZipCode('');
     setDepartment('Sales');
     setErrorMessage(''); 
-  };
+};
+
 
   const closeModal = () => {
     setIsModalOpen(false);
