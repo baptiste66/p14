@@ -6,7 +6,7 @@ import './selectDate.css';
 export const SelectDate = ({
     label,
     value,
-    //onChange,
+    onChange,
     error,
     className,
     ariaLabel,
@@ -18,7 +18,7 @@ export const SelectDate = ({
             </label>
             <DatePicker
                 selected={value} 
-               // onChange={date => onChange(date)} 
+                onChange={date => onChange(date)} 
                 id={label} 
                 aria-label={ariaLabel || label}
                 className={`input-date-picker ${className} ${error ? "input-date-error" : ""}`}
