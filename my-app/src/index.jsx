@@ -5,17 +5,18 @@ import Home from "./pages/home";
 import Employees from "./pages/Employees";
 import "./index.css";
 import "./components/modal/modal.css";
-import { EmployeeProvider } from './components/context/EmployeeContext'; 
+import { Provider } from 'react-redux';
+import store from './redux/store';
 
 ReactDOM.createRoot(document.getElementById("root")).render(
    <React.StrictMode>
-      <EmployeeProvider>  
+       <Provider store={store}>
          <Router>
             <Routes>
                <Route path="/" index element={<Home />} />
                <Route path="/employees" index element={<Employees />} />
             </Routes>
          </Router>
-      </EmployeeProvider>
+         </Provider>
    </React.StrictMode>
 );

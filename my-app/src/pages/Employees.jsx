@@ -1,29 +1,18 @@
-
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import { useTable } from "react-table";
-import { useEmployeeContext } from '../components/context/EmployeeContext'; 
+import {  useSelector } from "react-redux"; 
+//import { setEmployees } from "../actions/employeesAction";
 import '../employees.css';
 
 const EmployeeList = () => {
-    const { employees } = useEmployeeContext(); 
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        console.log("Employees from context:", employees); 
-        if (employees && employees.length > 0) {
-            setLoading(false);
-        } else {
-            setLoading(false); 
-        }
-    }, [employees]);
-
- 
+    const employees = useSelector((state) => state.employees); 
     const formattedEmployees = employees.map(emp => ({
         ...emp,
-        dateOfBirth: emp.dateOfBirth ? emp.dateOfBirth.toISOString().split('T')[0] : '', 
-        startDate: emp.startDate ? emp.startDate.toISOString().split('T')[0] : '', 
+        dateOfBirth: emp.dateOfBirth ? new Date(emp.dateOfBirth).toISOString().split('T')[0] : '', 
+        startDate: emp.startDate ? new Date(emp.startDate).toISOString().split('T')[0] : '', 
     }));
+
 
     const data = React.useMemo(() => formattedEmployees, [formattedEmployees]);
 
@@ -50,13 +39,7 @@ const EmployeeList = () => {
         prepareRow,
     } = useTable({ columns, data });
 
-    if (loading) {
-        return (
-            <div>
-                <p>Loading employees...</p>
-            </div>
-        );
-    }
+
 
     return (
         <div className="employee-list-container">

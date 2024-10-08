@@ -4,27 +4,45 @@ import '../components/modal/modal.css';
 import { Link } from 'react-router-dom';
 import { Select } from "../components/select/select"; 
 import city from '../data/city.json';
-import {SelectDate} from "../components/select/selectDate"; 
-import { useEmployeeContext } from '../components/context/EmployeeContext';
+import { SelectDate } from "../components/select/selectDate"; 
+import { addEmployee } from '../actions/employeesAction';
+import { useDispatch } from 'react-redux';
 
 function HRnet() {
-  const { setEmployees } = useEmployeeContext();
+  const dispatch = useDispatch();
+  //const employees = useSelector(state => state.employees);  
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [dateOfBirth, setDateOfBirth] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [street, setStreet] = useState('');
   const [cityInput, setCityInput] = useState('');
-  const [state, setState] = useState('');
+  const [state, setState] = useState('Alabama');
   const [zipCode, setZipCode] = useState('');
   const [department, setDepartment] = useState('Sales');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const stateOptions = city.states.map(state => state.name);
   const departmentOptions = ['Sales', 'Marketing', 'Engineering', 'Human Resources', 'Legal'];
 
+ 
+  const validateFields = () => {
+    if (!firstName || !lastName || !dateOfBirth || !startDate || !street || !cityInput || !state || !zipCode || !department) {
+      setErrorMessage('All fields are required.');
+      return false;
+    }
+    return true;
+  };
+
+
   const saveEmployee = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
+
+    if (!validateFields()) {
+      return;
+    }
+
     const newEmployee = {
       firstName,
       lastName,
@@ -37,22 +55,22 @@ function HRnet() {
       department,
     };
 
-  
-    setEmployees(prevEmployees => [...prevEmployees, newEmployee]);
+    dispatch(addEmployee(newEmployee));  
 
     console.log(newEmployee); 
-    setIsModalOpen(true); 
+    setIsModalOpen(true);
 
-    // Reset form fields
+  
     setFirstName('');
     setLastName('');
     setDateOfBirth(null);
     setStartDate(null);
     setStreet('');
     setCityInput('');
-    setState('');
+    setState('Alabama');
     setZipCode('');
     setDepartment('Sales');
+    setErrorMessage(''); 
   };
 
   const closeModal = () => {
@@ -66,6 +84,7 @@ function HRnet() {
       </div>
       <Link to="/employees">View Current Employees</Link>
       <h2>Create Employee</h2>
+      
       <form id="create-employee" onSubmit={saveEmployee}>
         <label htmlFor="first-name">First Name</label>
         <input
@@ -148,7 +167,7 @@ function HRnet() {
           onChange={(e) => setDepartment(e.target.value)}
           required
         />
-
+{errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
         <button type="submit">Save</button>
       </form>
 

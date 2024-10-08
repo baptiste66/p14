@@ -1,0 +1,11 @@
+[{
+   "firstName": "baptiste",
+   "lastName": "goti",
+   "startDate": "01/01/2025",   
+   "dateOfBirth": "25/09/2000",   
+   "department": "Engineer",
+   "street": "Rue du test",
+   "city": "Paris",
+   "state": "test",
+   "zipCode": 74000
+}]
